@@ -1,0 +1,41 @@
+{
+  "name": "boilerplate",
+  "version": "1.0.0",
+  "description": "starter code for express-sequelize-react-redux apps",
+  "main": "server/index",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .js,.jsx --ignore-pattern /public/*",
+    "lint-fix": "eslint . --ext .js,.jsx --fix --ignore-pattern /public/*",
+    "start": "node server",
+    "start-dev": "webpack -w & nodemon server.js"
+  },
+  "author": "spencer",
+  "license": "Unlicense",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "express": "^4.16.3",
+    "pg": "^7.5.0",
+    "pg-hstore": "^2.3.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "sequelize": "^4.39.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^1.0.0",
+    "style-loader": "^0.23.1",
+    "volleyball": "^1.5.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
+  }
+}
