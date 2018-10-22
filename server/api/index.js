@@ -1,9 +1,10 @@
 const router = require(`express`).Router()
+const tokenApiRoute = require(`./tokenApiRoute`)
 
-router.use(`/tokenApiRoute`, require(`./tokenApiRoute`))
+router.use(`/tokenApiRoute`, tokenApiRoute)
 
 router.use((req, res, next) => {
-  const err = new Error(`Not Found.`)
+  const err = new Error(`Route Not Found`)
   err.status = 404
   next(err)
 })
