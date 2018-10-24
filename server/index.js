@@ -1,3 +1,4 @@
+// NPM modules and built-ins
 const express = require(`express`)
 const volleyball = require(`volleyball`)
 const session = require(`express-session`)
@@ -5,9 +6,12 @@ const SequelizeStore = require(`connect-session-sequelize`)(session.Store)
 const passport = require(`passport`)
 const path = require(`path`)
 
+// Database
 const db = require(`./db`)
 
-const app = express()
+// Sub-routers
+const api = require(`./api`)
+const auth = require(`./auth`)
 
 // Passport serialization/deserialization instructions
 passport.serializeUser((user, done) => {
@@ -22,6 +26,9 @@ passport.deserializeUser(async (id, done) => {
     done(err)
   }
 })
+
+// Initialize app
+const app = express()
 
 // Logging middleware
 app.use(volleyball)
@@ -49,8 +56,11 @@ app.use(passport.session())
 // Static file serving middleware
 app.use(express.static(path.join(__dirname, `../public`)))
 
+// Plug in sub-routers
 // API requests
-app.use(`/api`, require(`./api`))
+app.use(`/api`, api)
+// Auth requests
+app.use(`/auth`, auth)
 
 // All other requests
 app.get(`*`, (req, res) => {
