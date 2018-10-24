@@ -1,10 +1,27 @@
 const express = require(`express`)
 const volleyball = require(`volleyball`)
+const session = require(`express-session`)
+const SequelizeStore = require(`connect-session-sequelize`)(session.Store)
+const passport = require(`passport`)
 const path = require(`path`)
 
 const db = require(`./db`)
 
 const app = express()
+
+// Passport serialization/deserialization instructions
+passport.serializeUser((user, done) => {
+  done(null, user.id)
+})
+
+passport.deserializeUser(async (id, done) => {
+  try{
+    const user = await db.models.user.findById(id)
+    done(null, user)
+  }catch(err){
+    done(err)
+  }
+})
 
 // Logging middleware
 app.use(volleyball)
@@ -12,6 +29,22 @@ app.use(volleyball)
 // Body parsing middleware
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
+
+// db of sessions for connect-session-sequelize
+const dbStoreSessions = new SequelizeStore({db})
+dbStoreSessions.sync() // sync so that session table will be created
+
+// Sessions middleware
+app.use(session({
+  secret : process.env.SESSION_SECRET || `a perhaps worst-practices secret`,
+  store : dbStoreSessions,
+  resave : false,
+  saveUninitialized : false,
+}))
+
+// Passport middleware
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Static file serving middleware
 app.use(express.static(path.join(__dirname, `../public`)))
@@ -21,7 +54,7 @@ app.use(`/api`, require(`./api`))
 
 // All other requests
 app.get(`*`, (req, res) => {
-  res.sendFile(path.join(__dirname, `../public`))
+  res.sendFile(path.join(__dirname, `../public/index.html`))
 })
 
 // 404 response
