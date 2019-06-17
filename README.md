@@ -1,5 +1,5 @@
 # Boilerplate
 
-Basic starting code for a express-sequelize-react-redux SPA, to be cloned and used as a starting point for projects.
+Basic starting code for a express-sequelize-react-redux SPA with an account system, to be cloned and used as a starting point for projects.
 
-Individual pieces of the project can be pulled out (just frontend, just backend), or pieces can be added (sessions, oauth).
+Pieces can be added (like OAuth) or removed (like Redux) as necessary
